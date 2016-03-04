@@ -8,6 +8,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using ProductManager;
+using ProductManager.Models;
 
 namespace ProductManager.Controllers
 {
@@ -47,11 +48,11 @@ namespace ProductManager.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "ID,Name")] Category category)
+        public async Task<ActionResult> Create([Bind(Include = "ID,Name")] CategoryViewModel category)
         {
             if (ModelState.IsValid)
             {
-                db.Categories.Add(category);
+                db.Categories.Add(ModelFactory.Create(category));
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
@@ -79,7 +80,7 @@ namespace ProductManager.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "ID,Name")] Category category)
+        public async Task<ActionResult> Edit([Bind(Include = "ID,Name")] CategoryViewModel category)
         {
             if (ModelState.IsValid)
             {
